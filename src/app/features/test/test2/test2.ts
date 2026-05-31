@@ -1,11 +1,15 @@
-import { encapsulateStyle } from '@angular/compiler';
-import { Component, viewChild, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
+import { Student } from '../../../models/student';
+import { IStudent } from '../../../models/istudent';
+import { FormsModule } from '@angular/forms';
+// import { Test3 } from '../test3/test3';
 
 @Component({
   selector: 'app-test2',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './test2.html',
   styleUrl: './test2.css',
-  // encapsulation: ViewEncapsulation.None,
 })
-export class Test2 {}
+export class Test2 {
+  std: IStudent = { id: 5, name: 'aly', age: 30 };
+}

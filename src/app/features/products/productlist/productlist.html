@@ -1,0 +1,55 @@
+<div class="mb-3">
+  <label for="deliveryDate" class="form-label">Select delivery date</label>
+  <p-datepicker
+    inputId="deliveryDate"
+    [(ngModel)]="selectedDate"
+    [showIcon]="true"
+    dateFormat="dd/mm/yy"
+    placeholder="Choose a date"
+  />
+</div>
+
+@if (selectedDate) {
+  <p>Selected date: {{ selectedDate | date: 'fullDate' }}</p>
+}
+
+@for (item of products; track $index) {
+  <div class="card" style="width: 18rem">
+    <img [src]="item.imageUrl" class="card-img-top" alt="..." />
+    <div class="card-body">
+      <p class="card-text">name = {{ item.name }}</p>
+      <p class="card-text">price = {{ item.price }}</p>
+      <p class="card-text">quantity = {{ item.quantity }}</p>
+      <p-rating [(ngModel)]="productRatings[item.id]" [readonly]="true" />
+    </div>
+  </div>
+}
+
+<!-- <div>
+  <table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Category ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (product of products; track product.id) {
+      <tr>
+        <td>{{ product.id }}</td>
+        <td>
+          <img [src]="product.imageUrl" [alt]="product.name" width="80" height="80" />
+        </td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>{{ product.catId }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div> -->

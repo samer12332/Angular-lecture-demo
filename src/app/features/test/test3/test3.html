@@ -1,0 +1,8 @@
+<div class="card border-0 shadow-sm">
+  <div class="card-body">
+    <h4 class="h6 text-uppercase text-muted mb-2">Team Member</h4>
+    <h5 class="mb-1">{{ member.name }}</h5>
+    <p class="mb-2">{{ member.role }}</p>
+    <a class="text-decoration-none" [href]="'mailto:' + member.email">{{ member.email }}</a>
+  </div>
+</div>

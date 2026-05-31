@@ -1,1 +1,6 @@
-<h1>test2 works!</h1>
+<h1>{{ std.id }} {{ std.name }} {{ std.age }}</h1>
+<div class="alert alert-primary" role="alert">
+  <strong>update student</strong> Some Word id<input [(ngModel)]="std.id" /><br />
+  name<input [(ngModel)]="std.name" /><br />
+  age<input [(ngModel)]="std.age" /><br />
+</div>
