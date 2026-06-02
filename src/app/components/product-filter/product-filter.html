@@ -1,0 +1,29 @@
+<div class="card border-success mb-4">
+  <div class="card-header bg-light">
+    <h5 class="mb-0">Product Filter</h5>
+  </div>
+
+  <div class="card-body">
+    <div class="row align-items-end">
+      <div class="col-md-6">
+        <label class="form-label">Filter by Category</label>
+
+        <select class="form-select" [(ngModel)]="selectedCategoryId" (change)="changeCategory()">
+          <option [value]="0">All Categories</option>
+
+          @for (category of categories; track category.id) {
+            <option [value]="category.id">
+              {{ category.name }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <div class="alert alert-success mb-0">
+          <strong>Total Bought Price:</strong> {{ totalPrice }} $
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

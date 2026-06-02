@@ -1,1 +1,23 @@
-<p>student-edit works!</p>
+<div class="card border-warning">
+  <div class="card-header bg-warning">
+    <h5 class="mb-0">Edit Student</h5>
+  </div>
+
+  <div class="card-body">
+    @if (student) {
+      <div class="mb-3">
+        <label class="form-label">Student Name</label>
+        <input type="text" class="form-control" [(ngModel)]="student.name" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Student Age</label>
+        <input type="number" class="form-control" [(ngModel)]="student.age" />
+      </div>
+
+      <button class="btn btn-warning" (click)="updateStudent()">Update</button>
+    } @else {
+      <p class="text-muted mb-0">Select a student to edit.</p>
+    }
+  </div>
+</div>

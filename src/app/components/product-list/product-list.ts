@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { ProductFilter } from '../product-filter/product-filter';
+
 import { IProduct } from '../../models/iproduct';
 import { ICategory } from '../../models/icategory';
 
@@ -10,7 +12,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 
 @Component({
   selector: 'app-product-list',
-  imports: [FormsModule, ButtonModule, RatingModule, DatePickerModule],
+  imports: [FormsModule, ButtonModule, RatingModule, DatePickerModule, ProductFilter],
   templateUrl: './product-list.html',
   styleUrl: './product-list.css',
 })
@@ -31,7 +33,7 @@ export class ProductList {
       id: 1,
       name: 'Laptop',
       imgUrl:
-        'https://fastly.picsum.photos/id/842/200/200.jpg?hmac=RW9iEgAYLKwoinQWSz_zrZHyOwmVEgqvoZTPebkRGMM',
+        'https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/13-laptop-platinum-right-render-fy25:VP4-1260x795?fmt=png-alpha',
       price: 1200,
       quantity: 10,
       catId: 1,
@@ -39,7 +41,7 @@ export class ProductList {
     {
       id: 2,
       name: 'Mouse',
-      imgUrl: 'https://picsum.photos/200?random=2',
+      imgUrl: 'https://m.media-amazon.com/images/I/61hzuoXwjqL.jpg',
       price: 25,
       quantity: 0,
       catId: 1,
@@ -47,7 +49,7 @@ export class ProductList {
     {
       id: 3,
       name: 'T-Shirt',
-      imgUrl: 'https://picsum.photos/200?random=3',
+      imgUrl: 'https://dfcdn.defacto.com.tr/838/G7707AX_26SM_GN1255_03_01.jpg',
       price: 30,
       quantity: 1,
       catId: 2,
@@ -55,7 +57,8 @@ export class ProductList {
     {
       id: 4,
       name: 'Jeans',
-      imgUrl: 'https://picsum.photos/200?random=4',
+      imgUrl:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPRgTlQ7f7wDP-EjgW8VYugH792X_ehbFarA&s',
       price: 70,
       quantity: 25,
       catId: 2,
@@ -63,7 +66,7 @@ export class ProductList {
     {
       id: 5,
       name: 'Coffee Mug',
-      imgUrl: 'https://picsum.photos/200?random=5',
+      imgUrl: 'https://m.media-amazon.com/images/I/61kaORLGZ5L.jpg',
       price: 12,
       quantity: 0,
       catId: 3,
@@ -71,7 +74,7 @@ export class ProductList {
     {
       id: 6,
       name: 'Notebook',
-      imgUrl: 'https://picsum.photos/200?random=6',
+      imgUrl: 'https://m.media-amazon.com/images/I/718vM+75UNL._AC_UF1000,1000_QL80_.jpg',
       price: 8,
       quantity: 100,
       catId: 3,
@@ -99,7 +102,29 @@ export class ProductList {
     return category ? category.name : 'Unknown';
   }
 
-  buyProduct(productName: string): void {
-    alert(`You selected ${productName}`);
+  selectedCategoryId: number = 0;
+  totalBoughtPrice: number = 0;
+
+  get filteredProducts(): IProduct[] {
+    if (this.selectedCategoryId === 0) {
+      return this.products;
+    }
+
+    return this.products.filter((product) => product.catId === this.selectedCategoryId);
+  }
+
+  filterByCategory(categoryId: number): void {
+    this.selectedCategoryId = categoryId;
+  }
+
+  buyProduct(product: IProduct): void {
+    if (product.quantity <= 0) {
+      return;
+    }
+
+    product.quantity--;
+    this.totalBoughtPrice += product.price;
+
+    alert(`You bought ${product.name}`);
   }
 }

@@ -4,12 +4,17 @@
   </div>
 
   <div class="card-body">
+    <app-student-add (studentAdded)="addStudent($event)"></app-student-add>
+
+    <hr />
+
     <table class="table table-bordered table-striped table-hover text-center align-middle">
       <thead class="table-dark">
         <tr>
           <th>ID</th>
           <th>Name</th>
           <th>Age</th>
+          <th>Actions</th>
         </tr>
       </thead>
 
@@ -19,9 +24,29 @@
             <td>{{ student.id }}</td>
             <td>{{ student.name }}</td>
             <td>{{ student.age }}</td>
+            <td>
+              <button class="btn btn-info btn-sm me-2" (click)="showDetails(student)">
+                Details
+              </button>
+
+              <button class="btn btn-warning btn-sm" (click)="editStudent(student)">Edit</button>
+            </td>
           </tr>
         }
       </tbody>
     </table>
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <app-student-details [student]="selectedStudent"></app-student-details>
+      </div>
+
+      <div class="col-md-6">
+        <app-student-edit
+          [student]="studentToEdit"
+          (studentUpdated)="updateStudent($event)"
+        ></app-student-edit>
+      </div>
+    </div>
   </div>
 </div>

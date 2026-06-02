@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { IStudent } from '../../models/istudent';
 
 @Component({
   selector: 'app-student-details',
@@ -6,4 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './student-details.html',
   styleUrl: './student-details.css',
 })
-export class StudentDetails {}
+export class StudentDetails {
+  @Input() student: IStudent | null = null;
+}
