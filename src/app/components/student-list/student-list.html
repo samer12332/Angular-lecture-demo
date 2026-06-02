@@ -1,0 +1,27 @@
+<div class="card shadow-sm">
+  <div class="card-header bg-primary text-white">
+    <h3 class="mb-0">Students List</h3>
+  </div>
+
+  <div class="card-body">
+    <table class="table table-bordered table-striped table-hover text-center align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Age</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (student of students; track student.id) {
+          <tr>
+            <td>{{ student.id }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.age }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
