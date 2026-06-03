@@ -1,14 +1,52 @@
-<div class="container py-5">
-  <div class="text-center mb-5">
-    <h1 class="fw-bold">Angular Lab</h1>
-    <p class="text-muted">Students List and Products Grid</p>
-  </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand fw-bold" routerLink="/home"> Angular Lab 4 </a>
 
-  <div class="mb-5">
-    <app-student-list></app-student-list>
-  </div>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#mainNavbar"
+      aria-controls="mainNavbar"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="mb-5">
-    <app-product-list></app-product-list>
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/home"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            Home
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/students" routerLinkActive="active"> Students </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/products" routerLinkActive="active"> Products </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/about" routerLinkActive="active"> About </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/contact" routerLinkActive="active"> Contact </a>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
+</nav>
+
+<main class="container py-5">
+  <router-outlet></router-outlet>
+</main>

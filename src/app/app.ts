@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { StudentList } from './components/student-list/student-list';
-import { ProductList } from './components/product-list/product-list';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [StudentList, ProductList],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

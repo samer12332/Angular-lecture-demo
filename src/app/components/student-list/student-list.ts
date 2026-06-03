@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IStudent } from '../../models/istudent';
 
+import { StudentService } from '../../services/student';
+
 import { StudentAdd } from '../student-add/student-add';
 import { StudentDetails } from '../student-details/student-details';
 import { StudentEdit } from '../student-edit/student-edit';
@@ -12,17 +14,18 @@ import { StudentEdit } from '../student-edit/student-edit';
   styleUrl: './student-list.css',
 })
 export class StudentList {
-  students: IStudent[] = [
-    { id: 1, name: 'Ahmed Ali', age: 20 },
-    { id: 2, name: 'Mona Hassan', age: 22 },
-    { id: 3, name: 'Omar Khaled', age: 21 },
-  ];
+  students: IStudent[] = [];
 
   selectedStudent: IStudent | null = null;
   studentToEdit: IStudent | null = null;
 
+  constructor(private studentService: StudentService) {
+    this.students = this.studentService.getStudents();
+  }
+
   addStudent(newStudent: IStudent): void {
-    this.students.push(newStudent);
+    this.studentService.addStudent(newStudent);
+    this.students = this.studentService.getStudents();
   }
 
   showDetails(student: IStudent): void {
@@ -34,11 +37,8 @@ export class StudentList {
   }
 
   updateStudent(updatedStudent: IStudent): void {
-    const index = this.students.findIndex((student) => student.id === updatedStudent.id);
-
-    if (index !== -1) {
-      this.students[index] = updatedStudent;
-    }
+    this.studentService.updateStudent(updatedStudent);
+    this.students = this.studentService.getStudents();
 
     this.studentToEdit = null;
   }
