@@ -1,29 +1,34 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 import { IStudent } from '../models/istudent';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StudentService {
-  private students: IStudent[] = [
-    { id: 1, name: 'Ahmed Ali', age: 20 },
-    { id: 2, name: 'Mona Hassan', age: 22 },
-    { id: 3, name: 'Omar Khaled', age: 21 },
-  ];
+  private apiUrl = 'http://localhost:3000/students';
 
-  getStudents(): IStudent[] {
-    return this.students;
+  constructor(private http: HttpClient) {}
+
+  getAllStudents(): Observable<IStudent[]> {
+    return this.http.get<IStudent[]>(this.apiUrl);
   }
 
-  addStudent(newStudent: IStudent): void {
-    this.students.push(newStudent);
+  getStudentById(id: string): Observable<IStudent> {
+    return this.http.get<IStudent>(`${this.apiUrl}/${id}`);
   }
 
-  updateStudent(updatedStudent: IStudent): void {
-    const index = this.students.findIndex((student) => student.id === updatedStudent.id);
+  addStudent(student: Omit<IStudent, 'id'>): Observable<IStudent> {
+    return this.http.post<IStudent>(this.apiUrl, student);
+  }
 
-    if (index !== -1) {
-      this.students[index] = updatedStudent;
-    }
+  updateStudent(student: IStudent): Observable<IStudent> {
+    return this.http.put<IStudent>(`${this.apiUrl}/${student.id}`, student);
+  }
+
+  deleteStudent(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

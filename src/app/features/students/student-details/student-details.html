@@ -1,0 +1,19 @@
+<div class="card shadow-sm">
+  <div class="card-header bg-info text-white">
+    <h3 class="mb-0">Student Details</h3>
+  </div>
+
+  <div class="card-body">
+    @if (isLoading()) {
+      <div class="alert alert-secondary mb-0">Loading student details...</div>
+    } @else if (student(); as currentStudent) {
+      <p><strong>ID:</strong> {{ currentStudent.id }}</p>
+      <p><strong>Name:</strong> {{ currentStudent.name }}</p>
+      <p><strong>Age:</strong> {{ currentStudent.age }}</p>
+
+      <a routerLink="/students" class="btn btn-secondary"> Back </a>
+    } @else {
+      <div class="alert alert-warning mb-0">{{ errorMessage() }}</div>
+    }
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="card shadow-sm">
+  <div class="card-header bg-warning">
+    <h3 class="mb-0">Update Student</h3>
+  </div>
+
+  <div class="card-body">
+    @if (isLoading()) {
+      <div class="alert alert-secondary mb-0">Loading student...</div>
+    } @else if (student(); as currentStudent) {
+      <div class="mb-3">
+        <label class="form-label">Student Name</label>
+        <input
+          type="text"
+          class="form-control"
+          [ngModel]="currentStudent.name"
+          (ngModelChange)="updateStudentName($event)"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Student Age</label>
+        <input
+          type="number"
+          class="form-control"
+          [ngModel]="currentStudent.age"
+          (ngModelChange)="updateStudentAge($event)"
+        />
+      </div>
+
+      <button class="btn btn-warning me-2" (click)="updateStudent()">Update</button>
+
+      <a routerLink="/students" class="btn btn-secondary"> Cancel </a>
+      @if (errorMessage()) {
+        <div class="alert alert-danger mt-3 mb-0">{{ errorMessage() }}</div>
+      }
+    } @else {
+      <div class="alert alert-warning mb-0">{{ errorMessage() }}</div>
+    }
+  </div>
+</div>

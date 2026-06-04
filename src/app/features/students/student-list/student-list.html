@@ -1,0 +1,57 @@
+<div class="card shadow-sm">
+  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+    <h3 class="mb-0">Students List</h3>
+
+    <a routerLink="/students/add" class="btn btn-light btn-sm"> Add Student </a>
+  </div>
+
+  <div class="card-body">
+    @if (isLoading()) {
+      <div class="alert alert-secondary mb-0">Loading students...</div>
+    } @else if (errorMessage()) {
+      <div class="alert alert-danger mb-0">{{ errorMessage() }}</div>
+    } @else if (students().length > 0) {
+      <table class="table table-bordered table-striped table-hover text-center align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (student of students(); track student.id) {
+            <tr>
+              <td>{{ student.id }}</td>
+              <td>{{ student.name }}</td>
+              <td>{{ student.age }}</td>
+              <td>
+                <a
+                  [routerLink]="['/students/details', student.id]"
+                  class="btn btn-info btn-sm me-2"
+                >
+                  Details
+                </a>
+
+                <a
+                  [routerLink]="['/students/update', student.id]"
+                  class="btn btn-warning btn-sm me-2"
+                >
+                  Update
+                </a>
+
+                <a [routerLink]="['/students/delete', student.id]" class="btn btn-danger btn-sm">
+                  Delete
+                </a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <div class="alert alert-info mb-0">No students found.</div>
+    }
+  </div>
+</div>
