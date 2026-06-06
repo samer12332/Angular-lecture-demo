@@ -11,6 +11,12 @@ const departmentSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    courses: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course',
+      },
+    ],
   },
   {
     versionKey: false,
