@@ -4,13 +4,13 @@ const studentSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, 'Name is required'],
       trim: true,
     },
     age: {
       type: Number,
-      required: true,
-      min: 1,
+      required: [true, 'Age is required'],
+      min: [1, 'Age must be greater than 0'],
     },
   },
   {
@@ -25,4 +25,5 @@ const studentSchema = new mongoose.Schema(
   },
 );
 
-module.exports = mongoose.models.Student || mongoose.model('Student', studentSchema);
+module.exports =
+  mongoose.models.Student || mongoose.model('Student', studentSchema);

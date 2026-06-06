@@ -1,14 +1,16 @@
+require('dotenv').config();
+
 const mongoose = require('mongoose');
 
-const Student = require('./models/student');
+const Student = require('./src/models/student.model');
 const sampleStudents = require('./data/students.json');
 
-const MONGODB_URI =
-  process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/angular-lab3';
+const MONGO_URI =
+  process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/angular_lab_students';
 
 async function seedStudents() {
   try {
-    await mongoose.connect(MONGODB_URI);
+    await mongoose.connect(MONGO_URI);
 
     const operations = sampleStudents.map((student) => ({
       updateOne: {
@@ -27,7 +29,7 @@ async function seedStudents() {
 
     const result = await Student.bulkWrite(operations);
 
-    console.log(`Seeded students into ${MONGODB_URI}`);
+    console.log(`Seeded students into ${MONGO_URI}`);
     console.log(
       `Inserted: ${result.upsertedCount}, Updated: ${result.modifiedCount}, Matched: ${result.matchedCount}`,
     );
