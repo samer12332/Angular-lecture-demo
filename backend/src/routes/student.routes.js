@@ -1,6 +1,11 @@
 const express = require('express');
 
 const {
+  validateCreateStudent,
+  validateStudentId,
+  validateUpdateStudent,
+} = require('../validators/student.validator');
+const {
   addStudent,
   deleteStudent,
   getAllStudents,
@@ -10,10 +15,10 @@ const {
 
 const router = express.Router();
 
-router.get('/students', getAllStudents);
-router.get('/students/:id', getStudentById);
-router.post('/students', addStudent);
-router.put('/students/:id', updateStudent);
-router.delete('/students/:id', deleteStudent);
+router.get('/', getAllStudents);
+router.get('/:id', validateStudentId, getStudentById);
+router.post('/', validateCreateStudent, addStudent);
+router.put('/:id', validateUpdateStudent, updateStudent);
+router.delete('/:id', validateStudentId, deleteStudent);
 
 module.exports = router;

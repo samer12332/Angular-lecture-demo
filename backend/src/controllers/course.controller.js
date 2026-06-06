@@ -1,43 +1,5 @@
-const mongoose = require('mongoose');
-
+const ApiError = require('../utils/apiError');
 const Course = require('../models/course.model');
-
-function createError(statusCode, message) {
-  const error = new Error(message);
-  error.statusCode = statusCode;
-  return error;
-}
-
-function validateCoursePayload(name, code, hours) {
-  if (!name || typeof name !== 'string' || !name.trim()) {
-    return 'Name is required';
-  }
-
-  if (!code || typeof code !== 'string' || !code.trim()) {
-    return 'Code is required';
-  }
-
-  const parsedHours = Number(hours);
-  if (Number.isNaN(parsedHours) || parsedHours <= 0) {
-    return 'Hours must be a number greater than 0';
-  }
-
-  return null;
-}
-
-function validateCourseId(id) {
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw createError(400, 'Invalid course id');
-  }
-}
-
-function handleDuplicateCodeError(error) {
-  if (error && error.code === 11000 && error.keyPattern?.code) {
-    throw createError(400, 'Course code already exists');
-  }
-
-  throw error;
-}
 
 async function getAllCourses(_req, res, next) {
   try {
@@ -51,11 +13,10 @@ async function getAllCourses(_req, res, next) {
 async function getCourseById(req, res, next) {
   try {
     const { id } = req.params;
-    validateCourseId(id);
 
     const course = await Course.findById(id);
     if (!course) {
-      throw createError(404, 'Course not found');
+      return next(new ApiError('Course not found', 404));
     }
 
     res.json(course);
@@ -67,25 +28,20 @@ async function getCourseById(req, res, next) {
 async function addCourse(req, res, next) {
   try {
     const { name, code, hours } = req.body;
-    const validationMessage = validateCoursePayload(name, code, hours);
-
-    if (validationMessage) {
-      throw createError(400, validationMessage);
-    }
 
     const newCourse = await Course.create({
-      name: name.trim(),
-      code: code.trim(),
+      name,
+      code,
       hours: Number(hours),
     });
 
     res.status(201).json(newCourse);
   } catch (error) {
-    try {
-      handleDuplicateCodeError(error);
-    } catch (handledError) {
-      next(handledError);
+    if (error && error.code === 11000 && error.keyPattern?.code) {
+      return next(new ApiError('Course code already exists', 400));
     }
+
+    next(error);
   }
 }
 
@@ -93,21 +49,23 @@ async function updateCourse(req, res, next) {
   try {
     const { id } = req.params;
     const { name, code, hours } = req.body;
+    const updateData = {};
 
-    validateCourseId(id);
+    if (name !== undefined) {
+      updateData.name = name;
+    }
 
-    const validationMessage = validateCoursePayload(name, code, hours);
-    if (validationMessage) {
-      throw createError(400, validationMessage);
+    if (code !== undefined) {
+      updateData.code = code;
+    }
+
+    if (hours !== undefined) {
+      updateData.hours = Number(hours);
     }
 
     const updatedCourse = await Course.findByIdAndUpdate(
       id,
-      {
-        name: name.trim(),
-        code: code.trim(),
-        hours: Number(hours),
-      },
+      updateData,
       {
         new: true,
         runValidators: true,
@@ -116,27 +74,26 @@ async function updateCourse(req, res, next) {
     );
 
     if (!updatedCourse) {
-      throw createError(404, 'Course not found');
+      return next(new ApiError('Course not found', 404));
     }
 
     res.json(updatedCourse);
   } catch (error) {
-    try {
-      handleDuplicateCodeError(error);
-    } catch (handledError) {
-      next(handledError);
+    if (error && error.code === 11000 && error.keyPattern?.code) {
+      return next(new ApiError('Course code already exists', 400));
     }
+
+    next(error);
   }
 }
 
 async function deleteCourse(req, res, next) {
   try {
     const { id } = req.params;
-    validateCourseId(id);
 
     const deletedCourse = await Course.findByIdAndDelete(id);
     if (!deletedCourse) {
-      throw createError(404, 'Course not found');
+      return next(new ApiError('Course not found', 404));
     }
 
     res.json({

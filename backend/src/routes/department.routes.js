@@ -1,6 +1,12 @@
 const express = require('express');
 
 const {
+  validateAssignCourseToDepartment,
+  validateCreateDepartment,
+  validateDepartmentId,
+  validateUpdateDepartment,
+} = require('../validators/department.validator');
+const {
   addDepartment,
   assignCourseToDepartment,
   deleteDepartment,
@@ -13,11 +19,19 @@ const {
 const router = express.Router();
 
 router.get('/', getAllDepartments);
-router.get('/:id', getDepartmentById);
-router.post('/', addDepartment);
-router.post('/:departmentId/courses/:courseId', assignCourseToDepartment);
-router.put('/:id', updateDepartment);
-router.delete('/:departmentId/courses/:courseId', removeCourseFromDepartment);
-router.delete('/:id', deleteDepartment);
+router.get('/:id', validateDepartmentId, getDepartmentById);
+router.post('/', validateCreateDepartment, addDepartment);
+router.post(
+  '/:departmentId/courses/:courseId',
+  validateAssignCourseToDepartment,
+  assignCourseToDepartment,
+);
+router.put('/:id', validateUpdateDepartment, updateDepartment);
+router.delete(
+  '/:departmentId/courses/:courseId',
+  validateAssignCourseToDepartment,
+  removeCourseFromDepartment,
+);
+router.delete('/:id', validateDepartmentId, deleteDepartment);
 
 module.exports = router;

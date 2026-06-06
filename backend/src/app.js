@@ -1,10 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 
+const ApiError = require('./utils/apiError');
 const courseRoutes = require('./routes/course.routes');
 const departmentRoutes = require('./routes/department.routes');
 const studentRoutes = require('./routes/student.routes');
-const { errorMiddleware } = require('./middleware/error.middleware');
+const errorMiddleware = require('./middleware/error.middleware');
 
 const app = express();
 
@@ -13,7 +14,11 @@ app.use(express.json());
 
 app.use('/courses', courseRoutes);
 app.use('/departments', departmentRoutes);
-app.use(studentRoutes);
+app.use('/students', studentRoutes);
+
+app.all('/{*any}', (req, _res, next) => {
+  next(new ApiError(`Route ${req.originalUrl} not found`, 404));
+});
 
 app.use(errorMiddleware);
 
