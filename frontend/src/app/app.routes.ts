@@ -20,5 +20,10 @@ export const routes: Routes = [
         (m) => m.departmentRoutes,
       ),
   },
+  {
+    path: 'courses',
+    loadChildren: () =>
+      import('./features/courses/course.routes').then((m) => m.courseRoutes),
+  },
   { path: '**', redirectTo: 'home' },
 ];

@@ -1,0 +1,66 @@
+<div class="card shadow-sm">
+  <div
+    class="card-header bg-primary text-white d-flex justify-content-between align-items-center"
+  >
+    <h3 class="mb-0">Courses List</h3>
+
+    <a routerLink="/courses/add" class="btn btn-light text-primary fw-semibold">
+      Add Course
+    </a>
+  </div>
+
+  <div class="card-body">
+    @if (isLoading()) {
+      <div class="alert alert-secondary mb-0">Loading courses...</div>
+    } @else if (errorMessage()) {
+      <div class="alert alert-danger mb-0">{{ errorMessage() }}</div>
+    } @else if (courses().length > 0) {
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover align-middle mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th>Name</th>
+              <th>Code</th>
+              <th>Hours</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (course of courses(); track course._id) {
+              <tr>
+                <td>{{ course.name }}</td>
+                <td>{{ course.code }}</td>
+                <td>{{ course.hours }}</td>
+                <td class="text-center">
+                  <a
+                    [routerLink]="['/courses/details', course._id]"
+                    class="btn btn-info btn-sm me-2"
+                  >
+                    Details
+                  </a>
+
+                  <a
+                    [routerLink]="['/courses/update', course._id]"
+                    class="btn btn-warning btn-sm me-2"
+                  >
+                    Update
+                  </a>
+
+                  <a
+                    [routerLink]="['/courses/delete', course._id]"
+                    class="btn btn-danger btn-sm"
+                  >
+                    Delete
+                  </a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <div class="alert alert-info mb-0">No courses found.</div>
+    }
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="card shadow-sm">
+  <div class="card-header bg-success text-white">
+    <h3 class="mb-0">Add Course</h3>
+  </div>
+
+  <div class="card-body">
+    @if (errorMessage()) {
+      <div class="alert alert-danger">{{ errorMessage() }}</div>
+    }
+
+    <form (ngSubmit)="addCourse()">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          class="form-control"
+          [(ngModel)]="courseName"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="code" class="form-label">Code</label>
+        <input
+          id="code"
+          name="code"
+          type="text"
+          class="form-control"
+          [(ngModel)]="courseCode"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="hours" class="form-label">Hours</label>
+        <input
+          id="hours"
+          name="hours"
+          type="number"
+          class="form-control"
+          [(ngModel)]="courseHours"
+          required
+          min="1"
+        />
+      </div>
+
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-success">Save Course</button>
+        <a routerLink="/courses" class="btn btn-secondary">Back</a>
+      </div>
+    </form>
+  </div>
+</div>

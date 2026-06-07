@@ -1,0 +1,29 @@
+<div class="card shadow-sm border-danger">
+  <div class="card-header bg-danger text-white">
+    <h3 class="mb-0">Delete Course</h3>
+  </div>
+
+  <div class="card-body">
+    @if (isLoading()) {
+      <div class="alert alert-secondary mb-0">Loading course...</div>
+    } @else if (course(); as currentCourse) {
+      @if (errorMessage()) {
+        <div class="alert alert-danger">{{ errorMessage() }}</div>
+      }
+
+      <p class="mb-3">
+        Are you sure you want to delete <strong>{{ currentCourse.name }}</strong
+        >?
+      </p>
+      <p><strong>Code:</strong> {{ currentCourse.code }}</p>
+      <p><strong>Hours:</strong> {{ currentCourse.hours }}</p>
+
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-danger" (click)="confirmDelete()">Confirm Delete</button>
+        <a routerLink="/courses" class="btn btn-secondary">Cancel</a>
+      </div>
+    } @else {
+      <div class="alert alert-warning mb-0">{{ errorMessage() }}</div>
+    }
+  </div>
+</div>
