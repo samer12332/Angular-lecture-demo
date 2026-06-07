@@ -7,11 +7,10 @@ import { Contact } from './pages/contact/contact';
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: Home },
-  { path: 'about', component: About },
-  { path: 'contact', component: Contact },
   {
     path: 'students',
-    loadChildren: () => import('./features/students/student.routes').then((m) => m.studentRoutes),
+    loadChildren: () =>
+      import('./features/students/student.routes').then((m) => m.studentRoutes),
   },
   {
     path: 'departments',
@@ -25,5 +24,7 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/courses/course.routes').then((m) => m.courseRoutes),
   },
+  { path: 'about', component: About },
+  { path: 'contact', component: Contact },
   { path: '**', redirectTo: 'home' },
 ];
