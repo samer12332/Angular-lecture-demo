@@ -70,6 +70,16 @@ export class DegreeList implements OnInit {
     this.loadDegrees(1);
   }
 
+  onLimitChange(event: Event): void {
+    const target = event.target as HTMLSelectElement | null;
+
+    if (!target) {
+      return;
+    }
+
+    this.changeLimit(target.value);
+  }
+
   getStudentName(degree: IDegree): string {
     if (typeof degree.student === 'string') {
       return degree.student;

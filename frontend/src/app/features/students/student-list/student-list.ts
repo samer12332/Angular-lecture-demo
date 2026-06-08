@@ -67,4 +67,14 @@ export class StudentList implements OnInit {
     this.limit.set(Number(value));
     this.loadStudents(1);
   }
+
+  onLimitChange(event: Event): void {
+    const target = event.target as HTMLSelectElement | null;
+
+    if (!target) {
+      return;
+    }
+
+    this.changeLimit(target.value);
+  }
 }

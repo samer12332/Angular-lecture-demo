@@ -2,9 +2,7 @@
   <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
     <h3 class="mb-0">Students List</h3>
 
-    <a routerLink="/students/add" class="btn btn-light text-primary fw-semibold">
-      Add Student
-    </a>
+    <a routerLink="/students/add" class="btn btn-light text-primary fw-semibold"> Add Student </a>
   </div>
 
   <div class="card-body">
@@ -64,7 +62,7 @@
             id="studentPageSize"
             class="form-select form-select-sm w-auto"
             [value]="limit()"
-            (change)="changeLimit($any($event.target).value)"
+            (change)="onLimitChange($event)"
           >
             <option value="5">5</option>
             <option value="10">10</option>
