@@ -1,5 +1,6 @@
 const express = require('express');
 
+const { validatePaginationQuery } = require('../validators/pagination.validator');
 const {
   addDegree,
   deleteDegree,
@@ -19,7 +20,7 @@ const {
 
 const router = express.Router();
 
-router.get('/', getAllDegrees);
+router.get('/', validatePaginationQuery, getAllDegrees);
 router.get('/student/:studentId', validateStudentDegrees, getDegreesByStudent);
 router.get('/course/:courseId', validateCourseDegrees, getDegreesByCourse);
 router.get('/:id', validateDegreeId, getDegreeById);

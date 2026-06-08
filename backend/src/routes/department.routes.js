@@ -1,5 +1,6 @@
 const express = require('express');
 
+const { validatePaginationQuery } = require('../validators/pagination.validator');
 const {
   validateAssignCourseToDepartment,
   validateCreateDepartment,
@@ -18,7 +19,7 @@ const {
 
 const router = express.Router();
 
-router.get('/', getAllDepartments);
+router.get('/', validatePaginationQuery, getAllDepartments);
 router.get('/:id', validateDepartmentId, getDepartmentById);
 router.post('/', validateCreateDepartment, addDepartment);
 router.post(

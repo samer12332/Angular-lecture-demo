@@ -1,10 +1,23 @@
 const ApiError = require('../utils/apiError');
 const Student = require('../models/student.model');
+const {
+  buildPaginationMeta,
+  getPagination,
+} = require('../utils/pagination');
 
-async function getAllStudents(_req, res, next) {
+async function getAllStudents(req, res, next) {
   try {
-    const students = await Student.find().sort({ _id: -1 });
-    res.json(students);
+    const { page, limit, skip } = getPagination(req.query);
+    const totalItems = await Student.countDocuments();
+    const students = await Student.find()
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    res.json({
+      data: students,
+      pagination: buildPaginationMeta({ page, limit, totalItems }),
+    });
   } catch (error) {
     next(error);
   }

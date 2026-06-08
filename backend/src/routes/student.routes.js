@@ -1,5 +1,6 @@
 const express = require('express');
 
+const { validatePaginationQuery } = require('../validators/pagination.validator');
 const {
   validateCreateStudent,
   validateStudentId,
@@ -15,7 +16,7 @@ const {
 
 const router = express.Router();
 
-router.get('/', getAllStudents);
+router.get('/', validatePaginationQuery, getAllStudents);
 router.get('/:id', validateStudentId, getStudentById);
 router.post('/', validateCreateStudent, addStudent);
 router.put('/:id', validateUpdateStudent, updateStudent);

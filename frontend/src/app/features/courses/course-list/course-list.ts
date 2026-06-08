@@ -14,20 +14,31 @@ export class CourseList implements OnInit {
   courses = signal<ICourse[]>([]);
   isLoading = signal(false);
   errorMessage = signal('');
+  currentPage = signal(1);
+  limit = signal(10);
+  totalPages = signal(1);
+  totalItems = signal(0);
+  hasNextPage = signal(false);
+  hasPrevPage = signal(false);
 
   constructor(private courseService: CourseService) {}
 
   ngOnInit(): void {
-    this.loadCourses();
+    this.loadCourses(1);
   }
 
-  loadCourses(): void {
+  loadCourses(page: number): void {
     this.isLoading.set(true);
     this.errorMessage.set('');
 
-    this.courseService.getAllCourses().subscribe({
-      next: (courses) => {
-        this.courses.set(courses);
+    this.courseService.getAllCourses(page, this.limit()).subscribe({
+      next: (response) => {
+        this.courses.set(response.data);
+        this.currentPage.set(response.pagination.currentPage);
+        this.totalPages.set(response.pagination.totalPages);
+        this.totalItems.set(response.pagination.totalItems);
+        this.hasNextPage.set(response.pagination.hasNextPage);
+        this.hasPrevPage.set(response.pagination.hasPrevPage);
         this.isLoading.set(false);
       },
       error: (error) => {
@@ -38,5 +49,22 @@ export class CourseList implements OnInit {
         this.isLoading.set(false);
       },
     });
+  }
+
+  nextPage(): void {
+    if (this.hasNextPage()) {
+      this.loadCourses(this.currentPage() + 1);
+    }
+  }
+
+  previousPage(): void {
+    if (this.hasPrevPage()) {
+      this.loadCourses(this.currentPage() - 1);
+    }
+  }
+
+  changeLimit(value: string): void {
+    this.limit.set(Number(value));
+    this.loadCourses(1);
   }
 }

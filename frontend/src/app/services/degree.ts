@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { IDegree } from '../models/idegree';
+import { IPaginatedResponse } from '../models/ipaginated-response';
 
 export interface ICreateDegreePayload {
   student: string;
@@ -24,8 +25,10 @@ export class DegreeService {
 
   constructor(private http: HttpClient) {}
 
-  getAllDegrees(): Observable<IDegree[]> {
-    return this.http.get<IDegree[]>(this.apiUrl);
+  getAllDegrees(page = 1, limit = 10): Observable<IPaginatedResponse<IDegree>> {
+    return this.http.get<IPaginatedResponse<IDegree>>(
+      `${this.apiUrl}?page=${page}&limit=${limit}`,
+    );
   }
 
   getDegreeById(id: string): Observable<IDegree> {

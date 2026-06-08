@@ -16,20 +16,31 @@ export class DegreeList implements OnInit {
   degrees = signal<IDegree[]>([]);
   isLoading = signal(false);
   errorMessage = signal('');
+  currentPage = signal(1);
+  limit = signal(10);
+  totalPages = signal(1);
+  totalItems = signal(0);
+  hasNextPage = signal(false);
+  hasPrevPage = signal(false);
 
   constructor(private degreeService: DegreeService) {}
 
   ngOnInit(): void {
-    this.loadDegrees();
+    this.loadDegrees(1);
   }
 
-  loadDegrees(): void {
+  loadDegrees(page: number): void {
     this.isLoading.set(true);
     this.errorMessage.set('');
 
-    this.degreeService.getAllDegrees().subscribe({
-      next: (degrees) => {
-        this.degrees.set(degrees);
+    this.degreeService.getAllDegrees(page, this.limit()).subscribe({
+      next: (response) => {
+        this.degrees.set(response.data);
+        this.currentPage.set(response.pagination.currentPage);
+        this.totalPages.set(response.pagination.totalPages);
+        this.totalItems.set(response.pagination.totalItems);
+        this.hasNextPage.set(response.pagination.hasNextPage);
+        this.hasPrevPage.set(response.pagination.hasPrevPage);
         this.isLoading.set(false);
       },
       error: (error) => {
@@ -40,6 +51,23 @@ export class DegreeList implements OnInit {
         this.isLoading.set(false);
       },
     });
+  }
+
+  nextPage(): void {
+    if (this.hasNextPage()) {
+      this.loadDegrees(this.currentPage() + 1);
+    }
+  }
+
+  previousPage(): void {
+    if (this.hasPrevPage()) {
+      this.loadDegrees(this.currentPage() - 1);
+    }
+  }
+
+  changeLimit(value: string): void {
+    this.limit.set(Number(value));
+    this.loadDegrees(1);
   }
 
   getStudentName(degree: IDegree): string {

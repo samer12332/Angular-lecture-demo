@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { IDepartment } from '../models/idepartment';
+import { IPaginatedResponse } from '../models/ipaginated-response';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +13,13 @@ export class DepartmentService {
 
   constructor(private http: HttpClient) {}
 
-  getAllDepartments(): Observable<IDepartment[]> {
-    return this.http.get<IDepartment[]>(this.apiUrl);
+  getAllDepartments(
+    page = 1,
+    limit = 10,
+  ): Observable<IPaginatedResponse<IDepartment>> {
+    return this.http.get<IPaginatedResponse<IDepartment>>(
+      `${this.apiUrl}?page=${page}&limit=${limit}`,
+    );
   }
 
   getDepartmentById(id: string): Observable<IDepartment> {

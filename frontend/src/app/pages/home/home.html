@@ -1,6 +1,35 @@
-<div class="card shadow-sm">
-  <div class="card-body text-center">
-    <h2 class="fw-bold">Home Page</h2>
-    <p class="text-muted mb-0">Welcome to Angular Lab 5.</p>
+<div class="card shadow-sm border-0 bg-primary-subtle">
+  <div class="card-body p-4 p-lg-5">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <span class="badge text-bg-primary mb-3">Angular + Node.js + MongoDB</span>
+        <h1 class="fw-bold mb-3">Student Management Mini Project</h1>
+        <p class="lead text-muted mb-4">
+          This application manages students, departments, courses, course assignments,
+          and student degrees.
+        </p>
+
+        <div class="d-flex flex-wrap gap-2">
+          <a routerLink="/students" class="btn btn-primary">Students</a>
+          <a routerLink="/departments" class="btn btn-outline-primary">Departments</a>
+          <a routerLink="/courses" class="btn btn-outline-primary">Courses</a>
+          <a routerLink="/degrees" class="btn btn-outline-primary">Degrees</a>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+            <h5 class="fw-semibold">Project Highlights</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item px-0">CRUD management for core entities</li>
+              <li class="list-group-item px-0">Lazy-loaded Angular features</li>
+              <li class="list-group-item px-0">REST API backed by MongoDB</li>
+              <li class="list-group-item px-0">Pagination for list pages</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

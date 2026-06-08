@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { IPaginatedResponse } from '../models/ipaginated-response';
 import { IStudent } from '../models/istudent';
 
 @Injectable({
@@ -12,8 +13,10 @@ export class StudentService {
 
   constructor(private http: HttpClient) {}
 
-  getAllStudents(): Observable<IStudent[]> {
-    return this.http.get<IStudent[]>(this.apiUrl);
+  getAllStudents(page = 1, limit = 10): Observable<IPaginatedResponse<IStudent>> {
+    return this.http.get<IPaginatedResponse<IStudent>>(
+      `${this.apiUrl}?page=${page}&limit=${limit}`,
+    );
   }
 
   getStudentById(id: string): Observable<IStudent> {

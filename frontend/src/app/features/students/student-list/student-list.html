@@ -2,9 +2,8 @@
   <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
     <h3 class="mb-0">Students List</h3>
 
-    <a routerLink="/students/add" class="add-student-btn">
-      <span class="add-student-btn__icon">+</span>
-      <span>Add Student</span>
+    <a routerLink="/students/add" class="btn btn-light text-primary fw-semibold">
+      Add Student
     </a>
   </div>
 
@@ -14,45 +13,87 @@
     } @else if (errorMessage()) {
       <div class="alert alert-danger mb-0">{{ errorMessage() }}</div>
     } @else if (students().length > 0) {
-      <table class="table table-bordered table-striped table-hover text-center align-middle">
-        <thead class="table-dark">
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          @for (student of students(); track student.id) {
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover text-center align-middle">
+          <thead class="table-dark">
             <tr>
-              <td>{{ student.id }}</td>
-              <td>{{ student.name }}</td>
-              <td>{{ student.age }}</td>
-              <td>
-                <a
-                  [routerLink]="['/students/details', student.id]"
-                  class="btn btn-info btn-sm me-2"
-                >
-                  Details
-                </a>
-
-                <a
-                  [routerLink]="['/students/update', student.id]"
-                  class="btn btn-warning btn-sm me-2"
-                >
-                  Update
-                </a>
-
-                <a [routerLink]="['/students/delete', student.id]" class="btn btn-danger btn-sm">
-                  Delete
-                </a>
-              </td>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Actions</th>
             </tr>
-          }
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            @for (student of students(); track student.id) {
+              <tr>
+                <td>{{ student.id }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.age }}</td>
+                <td>
+                  <a
+                    [routerLink]="['/students/details', student.id]"
+                    class="btn btn-info btn-sm me-2"
+                  >
+                    Details
+                  </a>
+
+                  <a
+                    [routerLink]="['/students/update', student.id]"
+                    class="btn btn-warning btn-sm me-2"
+                  >
+                    Update
+                  </a>
+
+                  <a [routerLink]="['/students/delete', student.id]" class="btn btn-danger btn-sm">
+                    Delete
+                  </a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mt-3">
+        <div class="text-muted">Total items: {{ totalItems() }}</div>
+
+        <div class="d-flex align-items-center gap-2">
+          <label for="studentPageSize" class="form-label mb-0">Page size</label>
+          <select
+            id="studentPageSize"
+            class="form-select form-select-sm w-auto"
+            [value]="limit()"
+            (change)="changeLimit($any($event.target).value)"
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+          </select>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn-sm"
+            (click)="previousPage()"
+            [disabled]="!hasPrevPage()"
+          >
+            Previous
+          </button>
+
+          <span class="fw-semibold">Page {{ currentPage() }} of {{ totalPages() }}</span>
+
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn-sm"
+            (click)="nextPage()"
+            [disabled]="!hasNextPage()"
+          >
+            Next
+          </button>
+        </div>
+      </div>
     } @else {
       <div class="alert alert-info mb-0">No students found.</div>
     }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { ICourse } from '../models/icourse';
+import { IPaginatedResponse } from '../models/ipaginated-response';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +13,10 @@ export class CourseService {
 
   constructor(private http: HttpClient) {}
 
-  getAllCourses(): Observable<ICourse[]> {
-    return this.http.get<ICourse[]>(this.apiUrl);
+  getAllCourses(page = 1, limit = 10): Observable<IPaginatedResponse<ICourse>> {
+    return this.http.get<IPaginatedResponse<ICourse>>(
+      `${this.apiUrl}?page=${page}&limit=${limit}`,
+    );
   }
 
   getCourseById(id: string): Observable<ICourse> {

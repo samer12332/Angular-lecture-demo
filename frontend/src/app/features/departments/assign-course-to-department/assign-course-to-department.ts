@@ -38,12 +38,12 @@ export class AssignCourseToDepartment implements OnInit {
     this.successMessage.set('');
 
     forkJoin({
-      departments: this.departmentService.getAllDepartments(),
-      courses: this.courseService.getAllCourses(),
+      departments: this.departmentService.getAllDepartments(1, 1000),
+      courses: this.courseService.getAllCourses(1, 1000),
     }).subscribe({
       next: ({ departments, courses }) => {
-        this.departments.set(departments);
-        this.courses.set(courses);
+        this.departments.set(departments.data);
+        this.courses.set(courses.data);
         this.isLoading.set(false);
       },
       error: (error) => {

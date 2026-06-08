@@ -1,17 +1,29 @@
 const ApiError = require('../utils/apiError');
 const Course = require('../models/course.model');
 const Department = require('../models/department.model');
+const {
+  buildPaginationMeta,
+  getPagination,
+} = require('../utils/pagination');
 
 async function getPopulatedDepartmentById(id) {
   return Department.findById(id).populate('courses');
 }
 
-async function getAllDepartments(_req, res, next) {
+async function getAllDepartments(req, res, next) {
   try {
+    const { page, limit, skip } = getPagination(req.query);
+    const totalItems = await Department.countDocuments();
     const departments = await Department.find()
       .populate('courses')
-      .sort({ _id: -1 });
-    res.json(departments);
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    res.json({
+      data: departments,
+      pagination: buildPaginationMeta({ page, limit, totalItems }),
+    });
   } catch (error) {
     next(error);
   }

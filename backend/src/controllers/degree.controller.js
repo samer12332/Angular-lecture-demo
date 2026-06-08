@@ -2,6 +2,10 @@ const ApiError = require('../utils/apiError');
 const Course = require('../models/course.model');
 const Degree = require('../models/degree.model');
 const Student = require('../models/student.model');
+const {
+  buildPaginationMeta,
+  getPagination,
+} = require('../utils/pagination');
 
 function getDegreeDuplicateError(error) {
   if (error && error.code === 11000 && error.keyPattern?.student && error.keyPattern?.course) {
@@ -14,14 +18,21 @@ function getDegreeDuplicateError(error) {
   return null;
 }
 
-async function getAllDegrees(_req, res, next) {
+async function getAllDegrees(req, res, next) {
   try {
+    const { page, limit, skip } = getPagination(req.query);
+    const totalItems = await Degree.countDocuments();
     const degrees = await Degree.find()
       .populate('student')
       .populate('course')
-      .sort({ _id: -1 });
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(limit);
 
-    res.json(degrees);
+    res.json({
+      data: degrees,
+      pagination: buildPaginationMeta({ page, limit, totalItems }),
+    });
   } catch (error) {
     next(error);
   }

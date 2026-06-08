@@ -40,12 +40,12 @@ export class DegreeAdd implements OnInit {
     this.errorMessage.set('');
 
     forkJoin({
-      students: this.studentService.getAllStudents(),
-      courses: this.courseService.getAllCourses(),
+      students: this.studentService.getAllStudents(1, 1000),
+      courses: this.courseService.getAllCourses(1, 1000),
     }).subscribe({
       next: ({ students, courses }) => {
-        this.students.set(students);
-        this.courses.set(courses);
+        this.students.set(students.data);
+        this.courses.set(courses.data);
         this.isLoading.set(false);
       },
       error: (error) => {
