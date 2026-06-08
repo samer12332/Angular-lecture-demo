@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 
+import { AssignCourseToDepartment } from './assign-course-to-department/assign-course-to-department';
 import { DepartmentAdd } from './department-add/department-add';
 import { DepartmentDelete } from './department-delete/department-delete';
 import { DepartmentDetails } from './department-details/department-details';
@@ -14,6 +15,10 @@ export const departmentRoutes: Routes = [
   {
     path: 'add',
     component: DepartmentAdd,
+  },
+  {
+    path: 'assign-course',
+    component: AssignCourseToDepartment,
   },
   {
     path: 'details/:id',
