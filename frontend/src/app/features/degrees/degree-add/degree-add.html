@@ -1,0 +1,72 @@
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h3 class="mb-0">Add Degree</h3>
+      </div>
+
+      <div class="card-body">
+        @if (errorMessage()) {
+          <div class="alert alert-danger">{{ errorMessage() }}</div>
+        }
+
+        @if (isLoading()) {
+          <div class="alert alert-secondary mb-0">Loading students and courses...</div>
+        } @else {
+          <div class="mb-3">
+            <label for="studentId" class="form-label fw-semibold">Select Student</label>
+            <select
+              id="studentId"
+              class="form-select"
+              [ngModel]="selectedStudentId()"
+              (ngModelChange)="selectedStudentId.set($event)"
+            >
+              <option value="">Choose a student</option>
+
+              @for (student of students(); track student.id) {
+                <option [value]="student.id">{{ student.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="courseId" class="form-label fw-semibold">Select Course</label>
+            <select
+              id="courseId"
+              class="form-select"
+              [ngModel]="selectedCourseId()"
+              (ngModelChange)="selectedCourseId.set($event)"
+            >
+              <option value="">Choose a course</option>
+
+              @for (course of courses(); track course._id) {
+                <option [value]="course._id">{{ course.name }} ({{ course.code }})</option>
+              }
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label for="degreeValue" class="form-label fw-semibold">Input Degree</label>
+            <input
+              id="degreeValue"
+              type="number"
+              class="form-control"
+              min="0"
+              max="100"
+              [ngModel]="degreeValue()"
+              (ngModelChange)="setDegreeValue($event)"
+            />
+          </div>
+
+          <div class="d-flex flex-wrap gap-2">
+            <button type="button" class="btn btn-primary" (click)="addDegree()">
+              Save
+            </button>
+
+            <a routerLink="/degrees" class="btn btn-outline-secondary">Cancel</a>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

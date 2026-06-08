@@ -20,6 +20,11 @@ export const routes: Routes = [
     path: 'courses',
     loadChildren: () => import('./features/courses/course.routes').then((m) => m.courseRoutes),
   },
+  {
+    path: 'degrees',
+    loadChildren: () =>
+      import('./features/degrees/degree.routes').then((m) => m.degreeRoutes),
+  },
   { path: 'about', component: About },
   { path: 'contact', component: Contact },
   { path: '**', redirectTo: 'home' },
