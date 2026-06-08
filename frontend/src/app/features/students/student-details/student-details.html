@@ -17,3 +17,50 @@
     }
   </div>
 </div>
+
+@if (student()) {
+  <div class="card shadow-sm mt-4">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Student Courses & Degrees</h4>
+    </div>
+
+    <div class="card-body">
+      @if (degreesLoading()) {
+        <div class="alert alert-secondary mb-0">Loading degrees...</div>
+      } @else if (degreesErrorMessage()) {
+        <div class="alert alert-danger mb-0">{{ degreesErrorMessage() }}</div>
+      } @else if (studentDegrees().length > 0) {
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover align-middle mb-0">
+            <thead class="table-dark">
+              <tr>
+                <th>Course Name</th>
+                <th>Course Code</th>
+                <th>Degree</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (degree of studentDegrees(); track degree._id) {
+                <tr>
+                  <td>{{ getCourseName(degree) }}</td>
+                  <td>{{ getCourseCode(degree) }}</td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                      <span>{{ degree.degree }}</span>
+                      <span class="badge" [class]="getDegreeBadgeClass(degree.degree)">
+                        {{ getDegreeLabel(degree.degree) }}
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="alert alert-info mb-0">No degrees found for this student.</div>
+      }
+    </div>
+  </div>
+}
